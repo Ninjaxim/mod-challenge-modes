@@ -285,6 +285,28 @@ private:
         }
     }
 
+    static void LoadStringToSet(std::unordered_set<uint32>& setToLoad, const std::string& configString)
+    {
+        setToLoad.clear();
+
+        std::stringstream ss(configString);
+        std::string item;
+
+        while (std::getline(ss, item, ',')) {
+            if (!item.empty())
+            {
+                try
+                {
+                    uint32_t value = static_cast<uint32_t>(std::stoul(item));
+                    setToLoad.insert(value);
+                }
+                catch (const std::exception&)
+                {
+                }
+            }
+        }
+    }
+
     static void LoadConfig()
     {
         sChallengeModes->challengesEnabled = sConfigMgr->GetOption<bool>("ChallengeModes.Enable", false);
@@ -341,6 +363,8 @@ private:
             LoadStringToMap(sChallengeModes->verySlowXpGainAchievementReward, sConfigMgr->GetOption<std::string>("VerySlowXpGain.AchievementReward", ""));
             LoadStringToMap(sChallengeModes->questXpOnlyAchievementReward, sConfigMgr->GetOption<std::string>("QuestXpOnly.AchievementReward", ""));
             LoadStringToMap(sChallengeModes->ironManAchievementReward, sConfigMgr->GetOption<std::string>("IronMan.AchievementReward", ""));
+
+            LoadStringToSet(sChallengeModes->selfCraftedWhitelist, sConfigMgr->GetOption<std::string>("SelfCrafted.ItemWhitelist", ""));
         }
     }
 };
@@ -582,6 +606,17 @@ public:
         {
             return true;
         }
+
+        ItemTemplate const* proto = pItem->GetTemplate();
+
+        if (proto)
+        {
+            if (sChallengeModes->selfCraftedWhitelist.find(proto->ItemId) != sChallengeModes->selfCraftedWhitelist.end())
+            {
+                return true;
+            }
+        }
+
         if (!pItem->GetTemplate()->HasSignature())
         {
             return false;
