@@ -409,6 +409,9 @@ public:
 
     void OnPlayerLogin(Player* player) override
     {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_HARDCORE, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Hardcore Challenge is active!");
+
         if (!sChallengeModes->challengeEnabledForPlayer(SETTING_HARDCORE, player) || !sChallengeModes->challengeEnabledForPlayer(HARDCORE_DEAD, player))
         {
             return;
@@ -473,6 +476,12 @@ class ChallengeMode_SemiHardcore : public ChallengeMode
 public:
     ChallengeMode_SemiHardcore() : ChallengeMode("ChallengeMode_SemiHardcore", SETTING_SEMI_HARDCORE) {}
 
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_SEMI_HARDCORE, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Semi-Hardcore Challenge is active!");
+    }
+
     void OnPlayerKilledByCreature(Creature* /*killer*/, Player* player) override
     {
         if (!sChallengeModes->challengeEnabledForPlayer(SETTING_SEMI_HARDCORE, player))
@@ -521,6 +530,12 @@ class ChallengeMode_SelfCrafted : public ChallengeMode
 public:
     ChallengeMode_SelfCrafted() : ChallengeMode("ChallengeMode_SelfCrafted", SETTING_SELF_CRAFTED) {}
 
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_SELF_CRAFTED, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Self-Crafted Challenge is active!");
+    }
+
     bool OnPlayerCanEquipItem(Player* player, uint8 /*slot*/, uint16& /*dest*/, Item* pItem, bool /*swap*/, bool /*not_loading*/) override
     {
         if (!sChallengeModes->challengeEnabledForPlayer(SETTING_SELF_CRAFTED, player))
@@ -550,6 +565,12 @@ class ChallengeMode_ItemQualityLevel : public ChallengeMode
 public:
     ChallengeMode_ItemQualityLevel() : ChallengeMode("ChallengeMode_ItemQualityLevel", SETTING_ITEM_QUALITY_LEVEL) {}
 
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_ITEM_QUALITY_LEVEL, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Item Quality Challenge is active!");
+    }
+
     bool OnPlayerCanEquipItem(Player* player, uint8 /*slot*/, uint16& /*dest*/, Item* pItem, bool /*swap*/, bool /*not_loading*/) override
     {
         if (!sChallengeModes->challengeEnabledForPlayer(SETTING_ITEM_QUALITY_LEVEL, player))
@@ -575,6 +596,12 @@ class ChallengeMode_SlowXpGain : public ChallengeMode
 public:
     ChallengeMode_SlowXpGain() : ChallengeMode("ChallengeMode_SlowXpGain", SETTING_SLOW_XP_GAIN) {}
 
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_SLOW_XP_GAIN, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Slow XP Challenge is active!");
+    }
+
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
     {
         ChallengeMode::OnPlayerGiveXP(player, amount, victim, xpSource);
@@ -591,6 +618,12 @@ class ChallengeMode_VerySlowXpGain : public ChallengeMode
 public:
     ChallengeMode_VerySlowXpGain() : ChallengeMode("ChallengeMode_VerySlowXpGain", SETTING_VERY_SLOW_XP_GAIN) {}
 
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_VERY_SLOW_XP_GAIN, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Very Slow XP Challenge is active!");
+    }
+
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
     {
         ChallengeMode::OnPlayerGiveXP(player, amount, victim, xpSource);
@@ -606,6 +639,12 @@ class ChallengeMode_QuestXpOnly : public ChallengeMode
 {
 public:
     ChallengeMode_QuestXpOnly() : ChallengeMode("ChallengeMode_QuestXpOnly", SETTING_QUEST_XP_ONLY) {}
+
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_QUEST_XP_ONLY, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Quest XP Only Challenge is active!");
+    }
 
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
     {
@@ -637,6 +676,12 @@ class ChallengeMode_IronMan : public ChallengeMode
 {
 public:
     ChallengeMode_IronMan() : ChallengeMode("ChallengeMode_IronMan", SETTING_IRON_MAN) {}
+
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_IRON_MAN, player))
+            ChatHandler(player->GetSession()).PSendSysMessage("Iron Man Challenge is active!");
+    }
 
     void OnPlayerResurrect(Player* player, float /*restore_percent*/, bool /*applySickness*/) override
     {
