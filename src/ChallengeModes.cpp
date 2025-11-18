@@ -149,6 +149,32 @@ const std::unordered_map<uint8, uint32> *ChallengeModes::getTalentMapForChalleng
     return {};
 }
 
+const std::unordered_map<uint8, uint32>* ChallengeModes::getGoldMapForChallenge(ChallengeModeSettings setting) const
+{
+    switch (setting)
+    {
+    case SETTING_HARDCORE:
+        return &hardcoreGoldRewards;
+    case SETTING_SEMI_HARDCORE:
+        return &semiHardcoreGoldRewards;
+    case SETTING_SELF_CRAFTED:
+        return &selfCraftedGoldRewards;
+    case SETTING_ITEM_QUALITY_LEVEL:
+        return &itemQualityLevelGoldRewards;
+    case SETTING_SLOW_XP_GAIN:
+        return &slowXpGainGoldRewards;
+    case SETTING_VERY_SLOW_XP_GAIN:
+        return &verySlowXpGainGoldRewards;
+    case SETTING_QUEST_XP_ONLY:
+        return &questXpOnlyGoldRewards;
+    case SETTING_IRON_MAN:
+        return &ironManGoldRewards;
+    case HARDCORE_DEAD:
+        break;
+    }
+    return {};
+}
+
 const std::unordered_map<uint8, uint32> *ChallengeModes::getItemMapForChallenge(ChallengeModeSettings setting) const
 {
     switch (setting)
@@ -348,6 +374,7 @@ void OnPlayerLevelChanged(Player* player, uint8 /*oldlevel*/) override
 
     const std::unordered_map<uint8, uint32>* titleRewardMap = sChallengeModes->getTitleMapForChallenge(settingName);
     const std::unordered_map<uint8, uint32>* talentRewardMap = sChallengeModes->getTalentMapForChallenge(settingName);
+    const std::unordered_map<uint8, uint32>* goldRewardMap = sChallengeModes->getGoldMapForChallenge(settingName);
     const std::unordered_map<uint8, uint32>* itemRewardMap = sChallengeModes->getItemMapForChallenge(settingName);
     const std::unordered_map<uint8, uint32>* achievementRewardMap = sChallengeModes->getAchievementMapForChallenge(settingName);
     uint8 level = player->GetLevel();
@@ -383,6 +410,12 @@ void OnPlayerLevelChanged(Player* player, uint8 /*oldlevel*/) override
         ChatHandler handler(player->GetSession());
         std::string tNameLink = handler.GetNameLink(player);
         player->CompletedAchievement(achievementInfo);
+    }
+
+    if (mapContainsKey(goldRewardMap, level))
+    {
+        uint32 goldAmount = goldRewardMap->at(level) * GOLD;
+        player->ModifyMoney(goldAmount);
     }
 
     if (mapContainsKey(itemRewardMap, level))
