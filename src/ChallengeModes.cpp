@@ -846,7 +846,40 @@ public:
     bool OnGossipSelect(Player* player, GameObject* /*go*/, uint32 /*sender*/, uint32 action) override
     {
         player->UpdatePlayerSetting("mod-challenge-modes", action, 1);
-        ChatHandler(player->GetSession()).PSendSysMessage("Challenge enabled.");
+
+        std::string challengeName;
+        switch (action)
+        {
+        case SETTING_HARDCORE:
+            challengeName = "Hardcore";
+            break;
+        case SETTING_SEMI_HARDCORE:
+            challengeName = "Semi-Hardcore";
+            break;
+        case SETTING_SELF_CRAFTED:
+            challengeName = "Self-Crafted";
+            break;
+        case SETTING_ITEM_QUALITY_LEVEL:
+            challengeName = "Low Quality Item";
+            break;
+        case SETTING_SLOW_XP_GAIN:
+            challengeName = "Slow XP Gain";
+            break;
+        case SETTING_VERY_SLOW_XP_GAIN:
+            challengeName = "Very Slow XP Gain";
+            break;
+        case SETTING_QUEST_XP_ONLY:
+            challengeName = "Quest XP Only";
+            break;
+        case SETTING_IRON_MAN:
+            challengeName = "Iron Man";
+            break;
+        default:
+            challengeName = "Unknown";
+            break;
+        }
+
+        ChatHandler(player->GetSession()).PSendSysMessage("The " + challengeName + " Challenge is now enabled!");
         CloseGossipMenuFor(player);
         return true;
     }
