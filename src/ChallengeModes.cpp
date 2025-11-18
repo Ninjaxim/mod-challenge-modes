@@ -923,6 +923,16 @@ public:
 
     bool OnGossipSelect(Player* player, GameObject* /*go*/, uint32 /*sender*/, uint32 action) override
     {
+        uint8 level = player->GetLevel();
+        uint32 xp = player->GetUInt32Value(PLAYER_XP);
+
+        if (level != 1 || xp != 0)
+        {
+            ChatHandler(player->GetSession()).PSendSysMessage("You must be level 1 and have 0 experience to enable a challenge mode.");
+            CloseGossipMenuFor(player);
+            return true;
+        }
+        
         player->UpdatePlayerSetting("mod-challenge-modes", action, 1);
 
         std::string challengeName;
