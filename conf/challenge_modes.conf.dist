@@ -62,6 +62,8 @@ ChallengeModes.Enable = 1
 #        The IDs used are achievement entry IDs. The format is the level followed by the achievement ID, separated by commas.
 #        Example: <Challenge>.AchievementReward = "80 1234"
 #
+#   SelfCrafted.DisableWeapons
+#       Allows players doing the self crafted challenge to equip any weapon, even if they did not craft it themselves
 #   SelfCrafted.ItemWhitelist
 #       A list of items that the player is able to equip, even if they did not craft it themselves, separated by commas.
 #       Example (fishing poles): SelfCrafted.ItemWhitelist = "6256, 45858"
@@ -96,6 +98,7 @@ SelfCrafted.ItemRewards = ""
 SelfCrafted.ItemRewardAmount = 1
 SelfCrafted.DisableLevel = 0
 SelfCrafted.AchievementReward = ""
+SelfCrafted.DisableWeapons = 0
 SelfCrafted.ItemWhitelist = "6256, 45858"
 
 ItemQualityLevel.Enable = 1

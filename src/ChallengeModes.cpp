@@ -322,6 +322,7 @@ private:
             sChallengeModes->semiHardcoreEnable = sConfigMgr->GetOption<bool>("SemiHardcore.Enable", true);
             sChallengeModes->semiHardcoreWeaponDropDisable = sConfigMgr->GetOption<bool>("SemiHardcore.DisableWeaponDrop", false);
             sChallengeModes->selfCraftedEnable = sConfigMgr->GetOption<bool>("SelfCrafted.Enable", true);
+            sChallengeModes->selfCraftedWeaponDisable = sConfigMgr->GetOption<bool>("SelfCrafted.DisableWeapons", false);
             sChallengeModes->itemQualityLevelEnable = sConfigMgr->GetOption<bool>("ItemQualityLevel.Enable", true);
             sChallengeModes->slowXpGainEnable = sConfigMgr->GetOption<bool>("SlowXpGain.Enable", true);
             sChallengeModes->verySlowXpGainEnable = sConfigMgr->GetOption<bool>("VerySlowXpGain.Enable", true);
@@ -611,6 +612,11 @@ public:
 
         if (proto)
         {
+            if (sChallengeModes->selfCraftedWeaponDisable && proto->IsWeapon())
+            {
+                return true;
+            }
+
             if (sChallengeModes->selfCraftedWhitelist.find(proto->ItemId) != sChallengeModes->selfCraftedWhitelist.end())
             {
                 return true;
