@@ -298,6 +298,7 @@ private:
 
             sChallengeModes->hardcoreEnable = sConfigMgr->GetOption<bool>("Hardcore.Enable", true);
             sChallengeModes->semiHardcoreEnable = sConfigMgr->GetOption<bool>("SemiHardcore.Enable", true);
+            sChallengeModes->semiHardcoreWeaponDropDisable = sConfigMgr->GetOption<bool>("SemiHardcore.DisableWeaponDrop", false);
             sChallengeModes->selfCraftedEnable = sConfigMgr->GetOption<bool>("SelfCrafted.Enable", true);
             sChallengeModes->itemQualityLevelEnable = sConfigMgr->GetOption<bool>("ItemQualityLevel.Enable", true);
             sChallengeModes->slowXpGainEnable = sConfigMgr->GetOption<bool>("SlowXpGain.Enable", true);
@@ -532,6 +533,10 @@ public:
                 ItemTemplate const* proto = pItem->GetTemplate();
                 if (!proto)
                     continue;
+
+                if (sChallengeModes->semiHardcoreWeaponDropDisable)
+                    if (proto->IsWeapon())
+                        continue;
 
                 std::string itemName = proto->Name1;
                 if (itemName.empty())

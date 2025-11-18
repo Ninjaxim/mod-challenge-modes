@@ -74,6 +74,7 @@ Hardcore.DisableLevel = 0
 Hardcore.AchievementReward = ""
 
 SemiHardcore.Enable = 1
+SemiHardcore.DisableWeaponDrop = 0
 SemiHardcore.TitleRewards = ""
 SemiHardcore.XPMultiplier = 1
 SemiHardcore.TalentRewards = ""
