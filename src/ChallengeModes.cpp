@@ -932,6 +932,41 @@ public:
             CloseGossipMenuFor(player);
             return true;
         }
+
+        // Remove all items from player that are not self crafted
+        // Prevents some cheating by someone trading items to the player before enabling the challenge
+        if (action == SETTING_SELF_CRAFTED)
+        {
+            for (uint8 i = 0; i < EQUIPMENT_SLOT_END; ++i)
+            {
+                if (Item* pItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, i))
+                {
+                    if (!pItem->IsEquipped())
+                        continue;
+
+                    ItemTemplate const* proto = pItem->GetTemplate();
+                    if (!proto)
+                        continue;
+
+                    if (pItem->GetTemplate()->HasSignature())
+                    {
+                        if (pItem->GetGuidValue(ITEM_FIELD_CREATOR) == player->GetGUID())
+                            continue;
+                    }
+
+                    std::string itemName = proto->Name1;
+                    if (itemName.empty())
+                        itemName = "Unknown Item";
+
+                    std::ostringstream msg;
+                    msg << "|cffDA70D6You have lost your |cffffffff|Hitem:" << proto->ItemId
+                        << ":0:0:0:0:0:0:0:0|h[" << itemName << "]|h|r";
+                    ChatHandler(player->GetSession()).SendSysMessage(msg.str().c_str());
+
+                    player->DestroyItem(INVENTORY_SLOT_BAG_0, pItem->GetSlot(), true);
+                }
+            }
+        }
         
         player->UpdatePlayerSetting("mod-challenge-modes", action, 1);
 
