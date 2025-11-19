@@ -569,7 +569,7 @@ public:
                     continue;
 
                 if (sChallengeModes->semiHardcoreWeaponDropDisable)
-                    if (proto->IsWeapon())
+                    if (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD)
                         continue;
 
                 std::string itemName = proto->Name1;
