@@ -612,7 +612,7 @@ public:
 
         if (proto)
         {
-            if (sChallengeModes->selfCraftedWeaponDisable && proto->IsWeapon())
+            if (sChallengeModes->selfCraftedWeaponDisable && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD))
             {
                 return true;
             }
@@ -996,7 +996,7 @@ public:
                     if (!proto)
                         continue;
 
-                    if (sChallengeModes->selfCraftedWeaponDisable && proto->IsWeapon())
+                    if (sChallengeModes->selfCraftedWeaponDisable && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD))
                         continue;
 
                     if (pItem->GetTemplate()->HasSignature())
