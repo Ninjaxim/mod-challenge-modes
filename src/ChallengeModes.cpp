@@ -996,6 +996,9 @@ public:
                     if (!proto)
                         continue;
 
+                    if (sChallengeModes->selfCraftedWeaponDisable && proto->IsWeapon())
+                        continue;
+
                     if (pItem->GetTemplate()->HasSignature())
                     {
                         if (pItem->GetGuidValue(ITEM_FIELD_CREATOR) == player->GetGUID())
