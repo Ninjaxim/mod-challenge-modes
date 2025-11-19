@@ -321,6 +321,7 @@ private:
             sChallengeModes->hardcoreEnable = sConfigMgr->GetOption<bool>("Hardcore.Enable", true);
             sChallengeModes->semiHardcoreEnable = sConfigMgr->GetOption<bool>("SemiHardcore.Enable", true);
             sChallengeModes->semiHardcoreWeaponDropDisable = sConfigMgr->GetOption<bool>("SemiHardcore.DisableWeaponDrop", false);
+            sChallengeModes->semiHardcoreMoneyLossPercentage = sConfigMgr->GetOption<float>("SemiHardcore.MoneyLossPercentage", 1.0f);
             sChallengeModes->selfCraftedEnable = sConfigMgr->GetOption<bool>("SelfCrafted.Enable", true);
             sChallengeModes->selfCraftedWeaponDisable = sConfigMgr->GetOption<bool>("SelfCrafted.DisableWeapons", false);
             sChallengeModes->itemQualityLevelEnable = sConfigMgr->GetOption<bool>("ItemQualityLevel.Enable", true);
@@ -377,6 +378,13 @@ public:
         ChallengeModeSettings settingName)
         : PlayerScript(scriptName), settingName(settingName)
     {
+    }
+
+    static void CopperToGold(uint32 totalCopper, uint32& gold, uint32& silver, uint32& copper)
+    {
+        gold = totalCopper / GOLD;
+        silver = (totalCopper % GOLD) / SILVER;
+        copper = totalCopper % SILVER;
     }
 
     static bool mapContainsKey(const std::unordered_map<uint8, uint32>* mapToCheck, uint8 key)
@@ -576,7 +584,19 @@ public:
             }
         }
 
-        player->SetMoney(0);
+        uint32 moneyToLose = player->GetMoney() * sChallengeModes->semiHardcoreMoneyLossPercentage;
+
+        player->SetMoney(player->GetMoney() - moneyToLose);
+
+        uint32 gold = 0;
+        uint32 silver = 0;
+        uint32 copper = 0;
+
+        CopperToGold(moneyToLose, gold, silver, copper);
+
+        std::ostringstream moneyMsg;
+        moneyMsg << "You have lost " << gold << "G " << silver << "S " << copper << "C";
+        ChatHandler(player->GetSession()).SendSysMessage(moneyMsg.str().c_str());
     }
 
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
