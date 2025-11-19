@@ -67,6 +67,8 @@ ChallengeModes.Enable = 1
 #   SemiHardcore.MoneyLossPercentage
 #       This is the percentage of money the player will lose on death (0.0 - 1.0)
 #
+#   SelfCrafted.AllowBags
+#       Allows players doing the self crafted challenge to equip any bag, even if they did not craft it themselves
 #   SelfCrafted.DisableWeapons
 #       Allows players doing the self crafted challenge to equip any weapon, even if they did not craft it themselves
 #   SelfCrafted.ItemWhitelist
@@ -104,6 +106,7 @@ SelfCrafted.ItemRewards = ""
 SelfCrafted.ItemRewardAmount = 1
 SelfCrafted.DisableLevel = 0
 SelfCrafted.AchievementReward = ""
+SelfCrafted.AllowBags = 0
 SelfCrafted.DisableWeapons = 0
 SelfCrafted.ItemWhitelist = "6256, 45858"
 
