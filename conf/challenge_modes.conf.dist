@@ -69,7 +69,7 @@ ChallengeModes.Enable = 1
 #
 #   SelfCrafted.AllowBags
 #       Allows players doing the self crafted challenge to equip any bag, even if they did not craft it themselves
-#   SelfCrafted.DisableWeapons
+#   SelfCrafted.AllowWeapons
 #       Allows players doing the self crafted challenge to equip any weapon, even if they did not craft it themselves
 #   SelfCrafted.ItemWhitelist
 #       A list of items that the player is able to equip, even if they did not craft it themselves, separated by commas.
@@ -107,7 +107,7 @@ SelfCrafted.ItemRewardAmount = 1
 SelfCrafted.DisableLevel = 0
 SelfCrafted.AchievementReward = ""
 SelfCrafted.AllowBags = 0
-SelfCrafted.DisableWeapons = 0
+SelfCrafted.AllowWeapons = 0
 SelfCrafted.ItemWhitelist = "6256, 45858"
 
 ItemQualityLevel.Enable = 1

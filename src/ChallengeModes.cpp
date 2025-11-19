@@ -323,7 +323,7 @@ private:
             sChallengeModes->semiHardcoreWeaponDropDisable = sConfigMgr->GetOption<bool>("SemiHardcore.DisableWeaponDrop", false);
             sChallengeModes->semiHardcoreMoneyLossPercentage = sConfigMgr->GetOption<float>("SemiHardcore.MoneyLossPercentage", 1.0f);
             sChallengeModes->selfCraftedEnable = sConfigMgr->GetOption<bool>("SelfCrafted.Enable", true);
-            sChallengeModes->selfCraftedWeaponDisable = sConfigMgr->GetOption<bool>("SelfCrafted.DisableWeapons", false);
+            sChallengeModes->selfCraftedAllowWeapons = sConfigMgr->GetOption<bool>("SelfCrafted.AllowWeapons", false);
             sChallengeModes->selfCraftedAllowBags = sConfigMgr->GetOption<bool>("SelfCrafted.AllowBags", false);
             sChallengeModes->itemQualityLevelEnable = sConfigMgr->GetOption<bool>("ItemQualityLevel.Enable", true);
             sChallengeModes->slowXpGainEnable = sConfigMgr->GetOption<bool>("SlowXpGain.Enable", true);
@@ -638,7 +638,7 @@ public:
                 return true;
             }
 
-            if (sChallengeModes->selfCraftedWeaponDisable && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD))
+            if (sChallengeModes->selfCraftedAllowWeapons && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD))
             {
                 return true;
             }
@@ -1025,7 +1025,7 @@ public:
                     if (sChallengeModes->selfCraftedAllowBags && proto->InventoryType == INVTYPE_BAG)
                         continue;
 
-                    if (sChallengeModes->selfCraftedWeaponDisable && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD))
+                    if (sChallengeModes->selfCraftedAllowWeapons && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD))
                         continue;
 
                     if (pItem->GetTemplate()->HasSignature())
