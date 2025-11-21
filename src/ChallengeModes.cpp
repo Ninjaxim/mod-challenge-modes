@@ -633,6 +633,11 @@ public:
 
         if (proto)
         {
+            if (proto->InventoryType == INVTYPE_TABARD)
+            {
+                return true;
+            }
+
             if (sChallengeModes->selfCraftedAllowBags && proto->InventoryType == INVTYPE_BAG)
             {
                 return true;
