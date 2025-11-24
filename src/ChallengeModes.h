@@ -25,7 +25,9 @@ enum ChallengeModeSettings
     SETTING_VERY_SLOW_XP_GAIN  = 5,
     SETTING_QUEST_XP_ONLY      = 6,
     SETTING_IRON_MAN           = 7,
-    HARDCORE_DEAD              = 8
+    HARDCORE_DEAD              = 8,
+    SETTING_ARCADE             = 9,
+    ARCADE_LIVES               = 10
 };
 
 enum AllowedProfessions
@@ -42,15 +44,16 @@ class ChallengeModes
 public:
     static ChallengeModes* instance();
 
-    bool challengesEnabled, hardcoreEnable, semiHardcoreEnable, semiHardcoreWeaponDropDisable, selfCraftedEnable, selfCraftedAllowWeapons, selfCraftedAllowBags, itemQualityLevelEnable, slowXpGainEnable, verySlowXpGainEnable, questXpOnlyEnable, ironManEnable;
-    uint32 hardcoreDisableLevel, semiHardcoreDisableLevel, selfCraftedDisableLevel, itemQualityLevelDisableLevel, slowXpGainDisableLevel, verySlowXpGainDisableLevel, questXpOnlyDisableLevel, ironManDisableLevel, hardcoreItemRewardAmount, semiHardcoreItemRewardAmount, selfCraftedItemRewardAmount, itemQualityLevelItemRewardAmount, slowXpGainItemRewardAmount, verySlowXpGainItemRewardAmount, questXpOnlyItemRewardAmount, ironManItemRewardAmount;
-    float hardcoreXpBonus, semiHardcoreXpBonus, semiHardcoreMoneyLossPercentage, selfCraftedXpBonus, itemQualityLevelXpBonus, questXpOnlyXpBonus, slowXpGainBonus, verySlowXpGainBonus, ironManXpBonus;
-    std::unordered_map<uint8, uint32> hardcoreTitleRewards, semiHardcoreTitleRewards, selfCraftedTitleRewards, itemQualityLevelTitleRewards, slowXpGainTitleRewards, verySlowXpGainTitleRewards, questXpOnlyTitleRewards, ironManTitleRewards;
-    std::unordered_map<uint8, uint32> hardcoreGoldRewards, semiHardcoreGoldRewards, selfCraftedGoldRewards, itemQualityLevelGoldRewards, slowXpGainGoldRewards, verySlowXpGainGoldRewards, questXpOnlyGoldRewards, ironManGoldRewards;
-    std::unordered_map<uint8, uint32> hardcoreItemRewards, semiHardcoreItemRewards, selfCraftedItemRewards, itemQualityLevelItemRewards, slowXpGainItemRewards, verySlowXpGainItemRewards, questXpOnlyItemRewards, ironManItemRewards;
-    std::unordered_map<uint8, uint32> hardcoreTalentRewards, semiHardcoreTalentRewards, selfCraftedTalentRewards, itemQualityLevelTalentRewards, slowXpGainTalentRewards, verySlowXpGainTalentRewards, questXpOnlyTalentRewards, ironManTalentRewards;
-    std::unordered_map<uint8, uint32> hardcoreAchievementReward, semiHardcoreAchievementReward, selfCraftedAchievementReward, itemQualityLevelAchievementReward, slowXpGainAchievementReward, verySlowXpGainAchievementReward, questXpOnlyAchievementReward, ironManAchievementReward;
+    bool challengesEnabled, hardcoreEnable, semiHardcoreEnable, semiHardcoreWeaponDropDisable, selfCraftedEnable, selfCraftedAllowWeapons, selfCraftedAllowBags, itemQualityLevelEnable, slowXpGainEnable, verySlowXpGainEnable, questXpOnlyEnable, ironManEnable, arcadeEnable;
+    uint32 hardcoreDisableLevel, semiHardcoreDisableLevel, selfCraftedDisableLevel, itemQualityLevelDisableLevel, slowXpGainDisableLevel, verySlowXpGainDisableLevel, questXpOnlyDisableLevel, ironManDisableLevel, arcadeDisableLevel, arcadeStartingLives, hardcoreItemRewardAmount, semiHardcoreItemRewardAmount, selfCraftedItemRewardAmount, itemQualityLevelItemRewardAmount, slowXpGainItemRewardAmount, verySlowXpGainItemRewardAmount, questXpOnlyItemRewardAmount, ironManItemRewardAmount, arcadeItemRewardAmount;
+    float hardcoreXpBonus, semiHardcoreXpBonus, semiHardcoreMoneyLossPercentage, selfCraftedXpBonus, itemQualityLevelXpBonus, questXpOnlyXpBonus, slowXpGainBonus, verySlowXpGainBonus, ironManXpBonus, arcadeXpBonus;
+    std::unordered_map<uint8, uint32> hardcoreTitleRewards, semiHardcoreTitleRewards, selfCraftedTitleRewards, itemQualityLevelTitleRewards, slowXpGainTitleRewards, verySlowXpGainTitleRewards, questXpOnlyTitleRewards, ironManTitleRewards, arcadeTitleRewards;
+    std::unordered_map<uint8, uint32> hardcoreGoldRewards, semiHardcoreGoldRewards, selfCraftedGoldRewards, itemQualityLevelGoldRewards, slowXpGainGoldRewards, verySlowXpGainGoldRewards, questXpOnlyGoldRewards, ironManGoldRewards, arcadeGoldRewards;
+    std::unordered_map<uint8, uint32> hardcoreItemRewards, semiHardcoreItemRewards, selfCraftedItemRewards, itemQualityLevelItemRewards, slowXpGainItemRewards, verySlowXpGainItemRewards, questXpOnlyItemRewards, ironManItemRewards, arcadeItemRewards;
+    std::unordered_map<uint8, uint32> hardcoreTalentRewards, semiHardcoreTalentRewards, selfCraftedTalentRewards, itemQualityLevelTalentRewards, slowXpGainTalentRewards, verySlowXpGainTalentRewards, questXpOnlyTalentRewards, ironManTalentRewards, arcadeTalentRewards;
+    std::unordered_map<uint8, uint32> hardcoreAchievementReward, semiHardcoreAchievementReward, selfCraftedAchievementReward, itemQualityLevelAchievementReward, slowXpGainAchievementReward, verySlowXpGainAchievementReward, questXpOnlyAchievementReward, ironManAchievementReward, arcadeAchievementReward;
     std::unordered_set<uint32> selfCraftedWhitelist;
+    std::unordered_map<uint8, uint32> arcadeExtraLifeRewards;
 
     std::unordered_map<std::string, std::unordered_map<uint8, uint32>*> rewardConfigMap =
             {
@@ -62,6 +65,7 @@ public:
                     { "VerySlowXpGain.TitleRewards",          &verySlowXpGainTitleRewards           },
                     { "QuestXpOnly.TitleRewards",             &questXpOnlyTitleRewards              },
                     { "IronMan.TitleRewards",                 &ironManTitleRewards                  },
+                    { "Arcade.TitleRewards",                  &arcadeTitleRewards                   },
 
                     { "Hardcore.TalentRewards",               &hardcoreTalentRewards                },
                     { "SemiHardcore.TalentRewards",           &semiHardcoreTalentRewards            },
@@ -71,6 +75,7 @@ public:
                     { "VerySlowXpGain.TalentRewards",         &verySlowXpGainTalentRewards          },
                     { "QuestXpOnly.TalentRewards",            &questXpOnlyTalentRewards             },
                     { "IronMan.TalentRewards",                &ironManTalentRewards                 },
+                    { "Arcade.TalentRewards",                 &arcadeTalentRewards                  },
 
                     { "Hardcore.GoldRewards",                 &hardcoreGoldRewards                  },
                     { "SemiHardcore.GoldRewards",             &semiHardcoreGoldRewards              },
@@ -80,6 +85,7 @@ public:
                     { "VerySlowXpGain.GoldRewards",           &verySlowXpGainGoldRewards            },
                     { "QuestXpOnly.GoldRewards",              &questXpOnlyGoldRewards               },
                     { "IronMan.GoldRewards",                  &ironManGoldRewards                   },
+                    { "Arcade.GoldRewards",                   &arcadeGoldRewards                    },
 
                     { "Hardcore.ItemRewards",                 &hardcoreItemRewards                  },
                     { "SemiHardcore.ItemRewards",             &semiHardcoreItemRewards              },
@@ -89,6 +95,7 @@ public:
                     { "VerySlowXpGain.ItemRewards",           &verySlowXpGainItemRewards            },
                     { "QuestXpOnly.ItemRewards",              &questXpOnlyItemRewards               },
                     { "IronMan.ItemRewards",                  &ironManItemRewards                   },
+                    { "Arcade.ItemRewards",                   &arcadeItemRewards                    },
 
                     { "Hardcore.AchievementReward",           &hardcoreAchievementReward            },
                     { "SemiHardcore.AchievementReward",       &semiHardcoreAchievementReward        },
@@ -97,7 +104,10 @@ public:
                     { "SlowXpGain.AchievementReward",         &slowXpGainAchievementReward          },
                     { "VerySlowXpGain.AchievementReward",     &verySlowXpGainAchievementReward      },
                     { "QuestXpOnly.AchievementReward",        &questXpOnlyAchievementReward         },
-                    { "IronMan.AchievementReward",            &ironManAchievementReward             }
+                    { "IronMan.AchievementReward",            &ironManAchievementReward             },
+                    { "Arcade.AchievementReward",             &arcadeAchievementReward              },
+
+                    { "Arcade.ExtraLifeRewards",              &arcadeExtraLifeRewards               }
             };
 
     [[nodiscard]] bool enabled() const { return challengesEnabled; }

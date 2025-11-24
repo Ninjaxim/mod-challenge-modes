@@ -74,6 +74,13 @@ ChallengeModes.Enable = 1
 #   SelfCrafted.ItemWhitelist
 #       A list of items that the player is able to equip, even if they did not craft it themselves, separated by commas.
 #       Example (fishing poles): SelfCrafted.ItemWhitelist = "6256, 45858"
+#
+#   Arcade.StartingLives
+#       The number of lives the player will start with when accepting the challenge
+#   Arcade.ExtraLifeRewards
+#       Rewards extra lives for players when reaching the given levels with the challenge enabled.
+#       The format is the level followed by the number of extra lives given at that level, separated by commas.
+#       Example: Arcade.ExtraLifeRewards = "10 1, 20 1, 30 2, 40 2"
 
 Hardcore.Enable = 1
 Hardcore.TitleRewards = ""
@@ -159,3 +166,15 @@ IronMan.ItemRewardAmount = 1
 IronMan.DisableLevel = 0
 IronMan.XPMultiplier = 1
 IronMan.AchievementReward = ""
+
+Arcade.Enable = 1
+Arcade.StartingLives = 9
+Arcade.ExtraLifeRewards = ""
+Arcade.TitleRewards = ""
+Arcade.TalentRewards = ""
+Arcade.GoldRewards = ""
+Arcade.ItemRewards = ""
+Arcade.ItemRewardAmount = 1
+Arcade.DisableLevel = 0
+Arcade.XPMultiplier = 1
+Arcade.AchievementReward = ""

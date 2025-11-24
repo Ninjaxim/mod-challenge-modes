@@ -41,6 +41,8 @@ bool ChallengeModes::challengeEnabled(ChallengeModeSettings setting) const
         return ironManEnable;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return arcadeEnable;
     }
     return false;
 }
@@ -67,6 +69,8 @@ uint32 ChallengeModes::getDisableLevel(ChallengeModeSettings setting) const
         return ironManDisableLevel;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return arcadeDisableLevel;
     }
     return 0;
 }
@@ -93,6 +97,8 @@ float ChallengeModes::getXpBonusForChallenge(ChallengeModeSettings setting) cons
         return ironManXpBonus;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return arcadeXpBonus;
     }
     return 1;
 }
@@ -119,6 +125,8 @@ const std::unordered_map<uint8, uint32>* ChallengeModes::getTitleMapForChallenge
         return &ironManTitleRewards;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return &arcadeTitleRewards;
     }
     return {};
 }
@@ -145,6 +153,8 @@ const std::unordered_map<uint8, uint32>* ChallengeModes::getTalentMapForChalleng
         return &ironManTalentRewards;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return &arcadeTalentRewards;
     }
     return {};
 }
@@ -171,6 +181,8 @@ const std::unordered_map<uint8, uint32>* ChallengeModes::getGoldMapForChallenge(
         return &ironManGoldRewards;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return &arcadeGoldRewards;
     }
     return {};
 }
@@ -197,6 +209,8 @@ const std::unordered_map<uint8, uint32>* ChallengeModes::getItemMapForChallenge(
         return &ironManItemRewards;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return &arcadeItemRewards;
     }
     return {};
 }
@@ -223,6 +237,8 @@ uint32 ChallengeModes::getItemRewardAmount(ChallengeModeSettings setting) const
         return ironManItemRewardAmount;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return arcadeItemRewardAmount;
     }
     return 0;
 }
@@ -249,6 +265,8 @@ const std::unordered_map<uint8, uint32>* ChallengeModes::getAchievementMapForCha
         return &ironManAchievementReward;
     case HARDCORE_DEAD:
         break;
+    case SETTING_ARCADE:
+        return &arcadeAchievementReward;
     }
     return {};
 }
@@ -330,6 +348,7 @@ private:
             sChallengeModes->verySlowXpGainEnable = sConfigMgr->GetOption<bool>("VerySlowXpGain.Enable", true);
             sChallengeModes->questXpOnlyEnable = sConfigMgr->GetOption<bool>("QuestXpOnly.Enable", true);
             sChallengeModes->ironManEnable = sConfigMgr->GetOption<bool>("IronMan.Enable", true);
+            sChallengeModes->arcadeEnable = sConfigMgr->GetOption<bool>("Arcade.Enable", true);
 
             sChallengeModes->hardcoreDisableLevel = sConfigMgr->GetOption<uint32>("Hardcore.DisableLevel", 0);
             sChallengeModes->semiHardcoreDisableLevel = sConfigMgr->GetOption<uint32>("SemiHardcore.DisableLevel", 0);
@@ -339,6 +358,7 @@ private:
             sChallengeModes->verySlowXpGainDisableLevel = sConfigMgr->GetOption<uint32>("VerySlowXpGain.DisableLevel", 0);
             sChallengeModes->questXpOnlyDisableLevel = sConfigMgr->GetOption<uint32>("QuestXpOnly.DisableLevel", 0);
             sChallengeModes->ironManDisableLevel = sConfigMgr->GetOption<uint32>("IronMan.DisableLevel", 0);
+            sChallengeModes->arcadeDisableLevel = sConfigMgr->GetOption<uint32>("Arcade.DisableLevel", 0);
 
             sChallengeModes->hardcoreXpBonus = sConfigMgr->GetOption<float>("Hardcore.XPMultiplier", 1.0f);
             sChallengeModes->semiHardcoreXpBonus = sConfigMgr->GetOption<float>("SemiHardcore.XPMultiplier", 1.0f);
@@ -348,6 +368,7 @@ private:
             sChallengeModes->slowXpGainBonus = sConfigMgr->GetOption<float>("SlowXpGain.XPMultiplier", 0.50f);
             sChallengeModes->verySlowXpGainBonus = sConfigMgr->GetOption<float>("VerySlowXpGain.XPMultiplier", 0.25f);
             sChallengeModes->ironManXpBonus = sConfigMgr->GetOption<float>("IronMan.XPMultiplier", 1.0f);
+            sChallengeModes->arcadeXpBonus = sConfigMgr->GetOption<float>("Arcade.XPMultiplier", 1.0f);
 
             sChallengeModes->hardcoreItemRewardAmount = sConfigMgr->GetOption<uint32>("Hardcore.ItemRewardAmount", 1);
             sChallengeModes->semiHardcoreItemRewardAmount = sConfigMgr->GetOption<uint32>("SemiHardcore.ItemRewardAmount", 1);
@@ -357,6 +378,7 @@ private:
             sChallengeModes->verySlowXpGainItemRewardAmount = sConfigMgr->GetOption<uint32>("VerySlowXpGain.ItemRewardAmount", 1);
             sChallengeModes->questXpOnlyItemRewardAmount = sConfigMgr->GetOption<uint32>("QuestXpOnly.ItemRewardAmount", 1);
             sChallengeModes->ironManItemRewardAmount = sConfigMgr->GetOption<uint32>("IronMan.ItemRewardAmount", 1);
+            sChallengeModes->arcadeItemRewardAmount = sConfigMgr->GetOption<uint32>("Arcade.ItemRewardAmount", 1);
 
             LoadStringToMap(sChallengeModes->hardcoreAchievementReward, sConfigMgr->GetOption<std::string>("Hardcore.AchievementReward", ""));
             LoadStringToMap(sChallengeModes->semiHardcoreAchievementReward, sConfigMgr->GetOption<std::string>("SemiHardcore.AchievementReward", ""));
@@ -366,8 +388,12 @@ private:
             LoadStringToMap(sChallengeModes->verySlowXpGainAchievementReward, sConfigMgr->GetOption<std::string>("VerySlowXpGain.AchievementReward", ""));
             LoadStringToMap(sChallengeModes->questXpOnlyAchievementReward, sConfigMgr->GetOption<std::string>("QuestXpOnly.AchievementReward", ""));
             LoadStringToMap(sChallengeModes->ironManAchievementReward, sConfigMgr->GetOption<std::string>("IronMan.AchievementReward", ""));
+            LoadStringToMap(sChallengeModes->arcadeAchievementReward, sConfigMgr->GetOption<std::string>("Arcade.AchievementReward", ""));
 
             LoadStringToSet(sChallengeModes->selfCraftedWhitelist, sConfigMgr->GetOption<std::string>("SelfCrafted.ItemWhitelist", ""));
+
+            sChallengeModes->arcadeStartingLives = sConfigMgr->GetOption<uint32>("Arcade.StartingLives", 0);
+            LoadStringToMap(sChallengeModes->arcadeExtraLifeRewards, sConfigMgr->GetOption<std::string>("Arcade.ExtraLifeRewards", ""));
         }
     }
 };
@@ -414,6 +440,7 @@ public:
         const std::unordered_map<uint8, uint32>* goldRewardMap = sChallengeModes->getGoldMapForChallenge(settingName);
         const std::unordered_map<uint8, uint32>* itemRewardMap = sChallengeModes->getItemMapForChallenge(settingName);
         const std::unordered_map<uint8, uint32>* achievementRewardMap = sChallengeModes->getAchievementMapForChallenge(settingName);
+        
         uint8 level = player->GetLevel();
 
         if (mapContainsKey(titleRewardMap, level))
@@ -940,6 +967,87 @@ public:
 
 };
 
+class ChallengeMode_Arcade : public ChallengeMode
+{
+public:
+    ChallengeMode_Arcade() : ChallengeMode("ChallengeMode_Arcade", SETTING_ARCADE) {}
+
+    void OnPlayerLogin(Player* player) override
+    {
+        if (sChallengeModes->challengeEnabledForPlayer(SETTING_ARCADE, player))
+        {
+            uint32 lives = player->GetPlayerSetting("mod-challenge-modes", ARCADE_LIVES).value;
+            std::ostringstream msg;
+            msg << "Arcade Challenge is active! You have " << lives << " " << (lives != 1 ? "lives" : "life") << " remaining.";
+            ChatHandler(player->GetSession()).PSendSysMessage(msg.str().c_str());
+        }
+    }
+
+    void OnPlayerKilledByCreature(Creature* /*killer*/, Player* player) override
+    {
+        OnDeath(player);
+    }
+
+    void OnPlayerPVPKill(Player* /*killer*/, Player* killed) override
+    {
+        OnDeath(killed);
+    }
+
+    void OnDeath(Player* player)
+    {
+        if (!sChallengeModes->challengeEnabledForPlayer(SETTING_ARCADE, player))
+            return;
+
+        uint32 lives = player->GetPlayerSetting("mod-challenge-modes", ARCADE_LIVES).value;
+
+        if (lives <= 0)
+        {
+            player->UpdatePlayerSetting("mod-challenge-modes", SETTING_ARCADE, 0);
+            ChatHandler(player->GetSession()).PSendSysMessage("You don't have any lives left. Your Arcade Challenge has ended!");
+            return;
+        }
+
+        lives--;
+
+        player->UpdatePlayerSetting("mod-challenge-modes", ARCADE_LIVES, lives);
+        std::ostringstream msg;
+        msg << "You've lost a life! You now have " << lives << " " << (lives != 1 ? "lives" : "life") << " remaining.";
+        ChatHandler(player->GetSession()).PSendSysMessage(msg.str().c_str());
+    }
+
+    void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
+    {
+        ChallengeMode::OnPlayerGiveXP(player, amount, victim, xpSource);
+    }
+
+    void OnPlayerLevelChanged(Player* player, uint8 oldlevel) override
+    {
+        if (!sChallengeModes->challengeEnabledForPlayer(SETTING_ARCADE, player))
+            return;
+
+        uint8 level = player->GetLevel();
+
+        if (sChallengeModes->arcadeExtraLifeRewards.find(level) != sChallengeModes->arcadeExtraLifeRewards.end())
+        {
+            uint32 extraLives = sChallengeModes->arcadeExtraLifeRewards.at(level);
+
+            if (extraLives > 0)
+            {
+                uint32 lives = player->GetPlayerSetting("mod-challenge-modes", ARCADE_LIVES).value;
+                uint32 totalLives = lives + extraLives;
+
+                player->UpdatePlayerSetting("mod-challenge-modes", ARCADE_LIVES, totalLives);
+
+                std::ostringstream msg;
+                msg << "You've gained " << extraLives << " extra " << (extraLives != 1 ? "lives" : "life") << "! You now have " << totalLives << " " << (totalLives != 1 ? "lives" : "life") << " remaining.";
+                ChatHandler(player->GetSession()).PSendSysMessage(msg.str().c_str());
+            }
+        }
+
+        ChallengeMode::OnPlayerLevelChanged(player, oldlevel);
+    }
+};
+
 class gobject_challenge_modes : public GameObjectScript
 {
 private:
@@ -967,7 +1075,7 @@ public:
 
     bool OnGossipHello(Player* player, GameObject* go) override
     {
-        if (sChallengeModes->challengeEnabled(SETTING_HARDCORE) && !playerSettingEnabled(player, SETTING_HARDCORE) && !playerSettingEnabled(player, SETTING_SEMI_HARDCORE))
+        if (sChallengeModes->challengeEnabled(SETTING_HARDCORE) && !playerSettingEnabled(player, SETTING_HARDCORE) && !playerSettingEnabled(player, SETTING_SEMI_HARDCORE) && !playerSettingEnabled(player, SETTING_ARCADE))
         {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Enable Hardcore Mode", 0, SETTING_HARDCORE);
         }
@@ -998,6 +1106,10 @@ public:
         if (sChallengeModes->challengeEnabled(SETTING_IRON_MAN) && !playerSettingEnabled(player, SETTING_IRON_MAN) && !playerSettingEnabled(player, SETTING_SELF_CRAFTED))
         {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Enable Iron Man Mode", 0, SETTING_IRON_MAN);
+        }
+        if (sChallengeModes->challengeEnabled(SETTING_ARCADE) && !playerSettingEnabled(player, SETTING_HARDCORE) && !playerSettingEnabled(player, SETTING_ARCADE))
+        {
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Enable Arcade Mode", 0, SETTING_ARCADE);
         }
         SendGossipMenuFor(player, 12669, go->GetGUID());
         return true;
@@ -1056,6 +1168,11 @@ public:
             }
         }
 
+        if (action == SETTING_ARCADE)
+        {
+            player->UpdatePlayerSetting("mod-challenge-modes", ARCADE_LIVES, sChallengeModes->arcadeStartingLives);
+        }
+
         player->UpdatePlayerSetting("mod-challenge-modes", action, 1);
 
         std::string challengeName;
@@ -1085,12 +1202,24 @@ public:
         case SETTING_IRON_MAN:
             challengeName = "Iron Man";
             break;
+        case SETTING_ARCADE:
+            challengeName = "Arcade";
+            break;
         default:
             challengeName = "Unknown";
             break;
         }
 
         ChatHandler(player->GetSession()).PSendSysMessage("The " + challengeName + " Challenge is now enabled!");
+
+        if (action == SETTING_ARCADE)
+        {
+            uint32 lives = sChallengeModes->arcadeStartingLives;
+            std::ostringstream msg;
+            msg << "You now have " << lives << " " << (lives != 1 ? "lives" : "life") << " remaining.";
+            ChatHandler(player->GetSession()).PSendSysMessage(msg.str().c_str());
+        }
+
         CloseGossipMenuFor(player);
         return true;
     }
@@ -1114,4 +1243,5 @@ void AddSC_mod_challenge_modes()
     new ChallengeMode_VerySlowXpGain();
     new ChallengeMode_QuestXpOnly();
     new ChallengeMode_IronMan();
+    new ChallengeMode_Arcade();
 }
