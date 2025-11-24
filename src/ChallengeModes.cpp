@@ -552,9 +552,12 @@ public:
             ChatHandler(player->GetSession()).PSendSysMessage("Semi-Hardcore Challenge is active!");
     }
 
-    void OnPlayerKilledByCreature(Creature* /*killer*/, Player* player) override
+    void OnPlayerKilledByCreature(Creature* killer, Player* player) override
     {
         if (!sChallengeModes->challengeEnabledForPlayer(SETTING_SEMI_HARDCORE, player))
+            return;
+
+        if (killer->IsPet())
             return;
 
         for (uint8 i = 0; i < EQUIPMENT_SLOT_END; ++i)
