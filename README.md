@@ -11,6 +11,7 @@ This module adds the following challenge modes:
 - **Very Slow XP Gain** - Players receive 0.25x the normal amount of XP.
 - **Quest XP Only** - Players can receive XP only from quests
 - **Iron Man Mode** - Enforces the [Iron Man Ruleset](https://wowchallenges.com/challangeinfo/iron-man/)
+- **Arcade Mode** - Players have a limited amount of lives. Once the player dies with 0 lives remaining, the challenge is disabled for that player.
 
 Challenges can be activated per-character by interacting with the Shrine of Challenge added near the graveyard of each starting area.
 Challenges can only be enabled on characters at level 1 (or level 55 for Death Knights).
@@ -18,6 +19,7 @@ Challenges can only be enabled on characters at level 1 (or level 55 for Death K
 Multiple challenges can be activated on a single character as long as they do not conflict, such as Hardcore and Semi-Hardcore.
 
 Rewards for reaching level thresholds for each challenge can be added using the Config file, and can include:
+- Gold
 - Items
 - Titles
 - Talent Points
