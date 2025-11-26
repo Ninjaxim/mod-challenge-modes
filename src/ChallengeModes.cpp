@@ -419,6 +419,63 @@ public:
         return (mapToCheck->find(key) != mapToCheck->end());
     }
 
+    static uint32 GetChallengeAuraSpellId(ChallengeModeSettings setting)
+    {
+        switch (setting)
+        {
+        case SETTING_HARDCORE:
+            return sConfigMgr->GetOption<uint32>("Hardcore.Aura", 0);
+        case SETTING_SEMI_HARDCORE:
+            return sConfigMgr->GetOption<uint32>("SemiHardcore.Aura", 0);
+        case SETTING_SELF_CRAFTED:
+            return sConfigMgr->GetOption<uint32>("SelfCrafted.Aura", 0);
+        case SETTING_ITEM_QUALITY_LEVEL:
+            return sConfigMgr->GetOption<uint32>("ItemQualityLevel.Aura", 0);
+        case SETTING_SLOW_XP_GAIN:
+            return sConfigMgr->GetOption<uint32>("SlowXpGain.Aura", 0);
+        case SETTING_VERY_SLOW_XP_GAIN:
+            return sConfigMgr->GetOption<uint32>("VerySlowXpGain.Aura", 0);
+        case SETTING_QUEST_XP_ONLY:
+            return sConfigMgr->GetOption<uint32>("QuestXpOnly.Aura", 0);
+        case SETTING_IRON_MAN:
+            return sConfigMgr->GetOption<uint32>("IronMan.Aura", 0);
+        case SETTING_ARCADE:
+            return sConfigMgr->GetOption<uint32>("Arcade.Aura", 0);
+        default:
+            return 0;
+        }
+    }
+
+    static void ApplyChallengeAura(Player* player, ChallengeModeSettings setting, uint8 stack = 1)
+    {
+        uint32 spellId = GetChallengeAuraSpellId(setting);
+
+        if (spellId && !player->HasAura(spellId))
+        {
+            if (SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellId))
+            {
+                player->AddAura(spellId, player);
+
+                if (Aura* aura = player->GetAura(spellId))
+                {
+                    aura->SetDuration(-1);
+                    aura->SetMaxDuration(-1);
+                    aura->SetStackAmount(stack);
+                }
+            }
+        }
+    }
+
+    static void RemoveChallengeAura(Player* player, ChallengeModeSettings setting)
+    {
+        uint32 spellId = GetChallengeAuraSpellId(setting);
+
+        if (spellId && player->HasAura(spellId))
+        {
+            player->RemoveAura(spellId);
+        }
+    }
+
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* /*victim*/, uint8 /*xpSource*/) override
     {
         if (!sChallengeModes->challengeEnabledForPlayer(settingName, player))
@@ -440,7 +497,7 @@ public:
         const std::unordered_map<uint8, uint32>* goldRewardMap = sChallengeModes->getGoldMapForChallenge(settingName);
         const std::unordered_map<uint8, uint32>* itemRewardMap = sChallengeModes->getItemMapForChallenge(settingName);
         const std::unordered_map<uint8, uint32>* achievementRewardMap = sChallengeModes->getAchievementMapForChallenge(settingName);
-        
+
         uint8 level = player->GetLevel();
 
         if (mapContainsKey(titleRewardMap, level))
@@ -507,12 +564,16 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_HARDCORE, player))
+        {
+            ApplyChallengeAura(player, SETTING_HARDCORE);
             ChatHandler(player->GetSession()).PSendSysMessage("Hardcore Challenge is active!");
+        }
 
         if (!sChallengeModes->challengeEnabledForPlayer(SETTING_HARDCORE, player) || !sChallengeModes->challengeEnabledForPlayer(HARDCORE_DEAD, player))
         {
             return;
         }
+
         player->KillPlayer();
         player->GetSession()->KickPlayer("Hardcore character died");
     }
@@ -576,7 +637,10 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_SEMI_HARDCORE, player))
+        {
+            ApplyChallengeAura(player, SETTING_SEMI_HARDCORE);
             ChatHandler(player->GetSession()).PSendSysMessage("Semi-Hardcore Challenge is active!");
+        }
     }
 
     void OnPlayerKilledByCreature(Creature* killer, Player* player) override
@@ -649,7 +713,10 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_SELF_CRAFTED, player))
+        {
+            ApplyChallengeAura(player, SETTING_SELF_CRAFTED);
             ChatHandler(player->GetSession()).PSendSysMessage("Self-Crafted Challenge is active!");
+        }
     }
 
     bool OnPlayerCanEquipItem(Player* player, uint8 /*slot*/, uint16& /*dest*/, Item* pItem, bool /*swap*/, bool /*not_loading*/) override
@@ -710,7 +777,10 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_ITEM_QUALITY_LEVEL, player))
+        {
+            ApplyChallengeAura(player, SETTING_ITEM_QUALITY_LEVEL);
             ChatHandler(player->GetSession()).PSendSysMessage("Item Quality Challenge is active!");
+        }
     }
 
     bool OnPlayerCanEquipItem(Player* player, uint8 /*slot*/, uint16& /*dest*/, Item* pItem, bool /*swap*/, bool /*not_loading*/) override
@@ -741,7 +811,10 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_SLOW_XP_GAIN, player))
+        {
+            ApplyChallengeAura(player, SETTING_SLOW_XP_GAIN);
             ChatHandler(player->GetSession()).PSendSysMessage("Slow XP Challenge is active!");
+        }
     }
 
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
@@ -763,7 +836,10 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_VERY_SLOW_XP_GAIN, player))
+        {
+            ApplyChallengeAura(player, SETTING_VERY_SLOW_XP_GAIN);
             ChatHandler(player->GetSession()).PSendSysMessage("Very Slow XP Challenge is active!");
+        }
     }
 
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
@@ -785,7 +861,10 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_QUEST_XP_ONLY, player))
+        {
+            ApplyChallengeAura(player, SETTING_QUEST_XP_ONLY);
             ChatHandler(player->GetSession()).PSendSysMessage("Quest XP Only Challenge is active!");
+        }
     }
 
     void OnPlayerGiveXP(Player* player, uint32& amount, Unit* victim, uint8 xpSource) override
@@ -822,7 +901,10 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_IRON_MAN, player))
+        {
+            ApplyChallengeAura(player, SETTING_IRON_MAN);
             ChatHandler(player->GetSession()).PSendSysMessage("Iron Man Challenge is active!");
+        }
     }
 
     void OnPlayerResurrect(Player* player, float /*restore_percent*/, bool /*applySickness*/) override
@@ -976,11 +1058,28 @@ public:
     {
         if (sChallengeModes->challengeEnabledForPlayer(SETTING_ARCADE, player))
         {
+            RemoveChallengeAura(player, SETTING_ARCADE);
+
             uint32 lives = player->GetPlayerSetting("mod-challenge-modes", ARCADE_LIVES).value;
+
+            ApplyChallengeAura(player, SETTING_ARCADE, lives);
+
             std::ostringstream msg;
             msg << "Arcade Challenge is active! You have " << lives << " " << (lives != 1 ? "lives" : "life") << " remaining.";
             ChatHandler(player->GetSession()).PSendSysMessage(msg.str().c_str());
         }
+    }
+
+    void OnPlayerResurrect(Player* player, float /*restore_percent*/, bool /*applySickness*/) override
+    {
+        if (!sChallengeModes->challengeEnabledForPlayer(SETTING_ARCADE, player))
+            return;
+
+        RemoveChallengeAura(player, SETTING_ARCADE);
+
+        uint32 lives = player->GetPlayerSetting("mod-challenge-modes", ARCADE_LIVES).value;
+
+        ApplyChallengeAura(player, SETTING_ARCADE, lives);
     }
 
     void OnPlayerKilledByCreature(Creature* /*killer*/, Player* player) override
@@ -1000,8 +1099,9 @@ public:
 
         uint32 lives = player->GetPlayerSetting("mod-challenge-modes", ARCADE_LIVES).value;
 
-        if (lives <= 0)
+        if (lives <= 1)
         {
+            RemoveChallengeAura(player, SETTING_ARCADE);
             player->UpdatePlayerSetting("mod-challenge-modes", SETTING_ARCADE, 0);
             ChatHandler(player->GetSession()).PSendSysMessage("You don't have any lives left. Your Arcade Challenge has ended!");
             return;
@@ -1033,10 +1133,14 @@ public:
 
             if (extraLives > 0)
             {
+                RemoveChallengeAura(player, SETTING_ARCADE);
+
                 uint32 lives = player->GetPlayerSetting("mod-challenge-modes", ARCADE_LIVES).value;
                 uint32 totalLives = lives + extraLives;
 
                 player->UpdatePlayerSetting("mod-challenge-modes", ARCADE_LIVES, totalLives);
+
+                ApplyChallengeAura(player, SETTING_ARCADE, totalLives);
 
                 std::ostringstream msg;
                 msg << "You've gained " << extraLives << " extra " << (extraLives != 1 ? "lives" : "life") << "! You now have " << totalLives << " " << (totalLives != 1 ? "lives" : "life") << " remaining.";
@@ -1215,10 +1319,15 @@ public:
         if (action == SETTING_ARCADE)
         {
             uint32 lives = sChallengeModes->arcadeStartingLives;
+
+            ChallengeMode::ApplyChallengeAura(player, static_cast<ChallengeModeSettings>(action), lives);
+
             std::ostringstream msg;
             msg << "You now have " << lives << " " << (lives != 1 ? "lives" : "life") << " remaining.";
             ChatHandler(player->GetSession()).PSendSysMessage(msg.str().c_str());
         }
+        else
+            ChallengeMode::ApplyChallengeAura(player, static_cast<ChallengeModeSettings>(action));
 
         CloseGossipMenuFor(player);
         return true;

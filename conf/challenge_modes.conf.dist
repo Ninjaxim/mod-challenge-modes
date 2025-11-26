@@ -31,6 +31,8 @@ ChallengeModes.Enable = 1
 #    The options for each mode follow the same format. "<Challenge>" is replaced with the name of the challenge, such as Hardcore. The following options are possible:
 #    <Challenge>.Enable = 1
 #        If set to 0, this challenge option will not be selectable at the challenge modes object.
+#    <Challenge>.Aura = 0
+#        The spell ID to use for an aura (0 = none)
 #    <Challenge>.TitleRewards = ""
 #        Rewards titles for players when reaching the given levels with the challenge enabled.
 #        The IDs used are from CharTitles.dbc. The format is the level followed by the title ID, separated by commas.
@@ -65,6 +67,7 @@ ChallengeModes.Enable = 1
 
 
 Hardcore.Enable = 1
+Hardcore.Aura = 0
 Hardcore.TitleRewards = ""
 Hardcore.XPMultiplier = 1
 Hardcore.TalentRewards = ""
@@ -81,6 +84,7 @@ Hardcore.AchievementReward = ""
 #       This is the percentage of money the player will lose on death (0.0 - 1.0)
 
 SemiHardcore.Enable = 1
+SemiHardcore.Aura = 0
 SemiHardcore.DisableWeaponDrop = 0
 SemiHardcore.MoneyLossPercentage = 1
 SemiHardcore.TitleRewards = ""
@@ -102,6 +106,7 @@ SemiHardcore.AchievementReward = ""
 #       Example (fishing poles): SelfCrafted.ItemWhitelist = "6256, 45858"
 
 SelfCrafted.Enable = 1
+SelfCrafted.Aura = 0
 SelfCrafted.TitleRewards = ""
 SelfCrafted.XPMultiplier = 1
 SelfCrafted.TalentRewards = ""
@@ -115,6 +120,7 @@ SelfCrafted.AllowWeapons = 0
 SelfCrafted.ItemWhitelist = "6256, 45858"
 
 ItemQualityLevel.Enable = 1
+ItemQualityLevel.Aura = 0
 ItemQualityLevel.TitleRewards = ""
 ItemQualityLevel.XPMultiplier = 1
 ItemQualityLevel.TalentRewards = ""
@@ -125,6 +131,7 @@ ItemQualityLevel.DisableLevel = 0
 ItemQualityLevel.AchievementReward = ""
 
 SlowXpGain.Enable = 1
+SlowXpGain.Aura = 0
 SlowXpGain.TitleRewards = ""
 SlowXpGain.TalentRewards = ""
 SlowXpGain.GoldRewards = ""
@@ -135,6 +142,7 @@ SlowXpGain.XPMultiplier = 0.50
 SlowXpGain.AchievementReward = ""
 
 VerySlowXpGain.Enable = 1
+VerySlowXpGain.Aura = 0
 VerySlowXpGain.TitleRewards = ""
 VerySlowXpGain.TalentRewards = ""
 VerySlowXpGain.GoldRewards = ""
@@ -145,6 +153,7 @@ VerySlowXpGain.XPMultiplier = 0.25
 VerySlowXpGain.AchievementReward = ""
 
 QuestXpOnly.Enable = 1
+QuestXpOnly.Aura = 0
 QuestXpOnly.TitleRewards = ""
 QuestXpOnly.XPMultiplier = 1
 QuestXpOnly.TalentRewards = ""
@@ -155,6 +164,7 @@ QuestXpOnly.DisableLevel = 0
 QuestXpOnly.AchievementReward = ""
 
 IronMan.Enable = 1
+IronMan.Aura = 0
 IronMan.TitleRewards = ""
 IronMan.TalentRewards = ""
 IronMan.GoldRewards = ""
@@ -173,6 +183,7 @@ IronMan.AchievementReward = ""
 #       Example: Arcade.ExtraLifeRewards = "10 1, 20 1, 30 2, 40 2"
 
 Arcade.Enable = 1
+Arcade.Aura = 0
 Arcade.StartingLives = 9
 Arcade.ExtraLifeRewards = ""
 Arcade.TitleRewards = ""
