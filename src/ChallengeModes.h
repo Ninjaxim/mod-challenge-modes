@@ -44,7 +44,7 @@ class ChallengeModes
 public:
     static ChallengeModes* instance();
 
-    bool challengesEnabled, hardcoreEnable, semiHardcoreEnable, semiHardcoreWeaponDropDisable, selfCraftedEnable, selfCraftedAllowWeapons, selfCraftedAllowBags, itemQualityLevelEnable, slowXpGainEnable, verySlowXpGainEnable, questXpOnlyEnable, ironManEnable, arcadeEnable;
+    bool challengesEnabled, hardcoreEnable, semiHardcoreEnable, semiHardcoreWeaponDropDisable, selfCraftedEnable, selfCraftedAllowWeapons, selfCraftedAllowBags, selfCraftedAllowFromOthers, itemQualityLevelEnable, slowXpGainEnable, verySlowXpGainEnable, questXpOnlyEnable, ironManEnable, arcadeEnable;
     uint32 hardcoreDisableLevel, semiHardcoreDisableLevel, selfCraftedDisableLevel, itemQualityLevelDisableLevel, slowXpGainDisableLevel, verySlowXpGainDisableLevel, questXpOnlyDisableLevel, ironManDisableLevel, arcadeDisableLevel, arcadeStartingLives, hardcoreItemRewardAmount, semiHardcoreItemRewardAmount, selfCraftedItemRewardAmount, itemQualityLevelItemRewardAmount, slowXpGainItemRewardAmount, verySlowXpGainItemRewardAmount, questXpOnlyItemRewardAmount, ironManItemRewardAmount, arcadeItemRewardAmount;
     float hardcoreXpBonus, semiHardcoreXpBonus, semiHardcoreMoneyLossPercentage, selfCraftedXpBonus, itemQualityLevelXpBonus, questXpOnlyXpBonus, slowXpGainBonus, verySlowXpGainBonus, ironManXpBonus, arcadeXpBonus;
     std::unordered_map<uint8, uint32> hardcoreTitleRewards, semiHardcoreTitleRewards, selfCraftedTitleRewards, itemQualityLevelTitleRewards, slowXpGainTitleRewards, verySlowXpGainTitleRewards, questXpOnlyTitleRewards, ironManTitleRewards, arcadeTitleRewards;

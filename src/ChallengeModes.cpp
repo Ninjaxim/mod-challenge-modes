@@ -343,6 +343,7 @@ private:
             sChallengeModes->selfCraftedEnable = sConfigMgr->GetOption<bool>("SelfCrafted.Enable", true);
             sChallengeModes->selfCraftedAllowWeapons = sConfigMgr->GetOption<bool>("SelfCrafted.AllowWeapons", false);
             sChallengeModes->selfCraftedAllowBags = sConfigMgr->GetOption<bool>("SelfCrafted.AllowBags", false);
+            sChallengeModes->selfCraftedAllowFromOthers = sConfigMgr->GetOption<bool>("SelfCrafted.AllowFromOthers", false);
             sChallengeModes->itemQualityLevelEnable = sConfigMgr->GetOption<bool>("ItemQualityLevel.Enable", true);
             sChallengeModes->slowXpGainEnable = sConfigMgr->GetOption<bool>("SlowXpGain.Enable", true);
             sChallengeModes->verySlowXpGainEnable = sConfigMgr->GetOption<bool>("VerySlowXpGain.Enable", true);
@@ -755,6 +756,10 @@ public:
         {
             return false;
         }
+
+        if (sChallengeModes->selfCraftedAllowFromOthers && pItem->GetGuidValue(ITEM_FIELD_CREATOR).IsPlayer())
+            return true;
+
         return pItem->GetGuidValue(ITEM_FIELD_CREATOR) == player->GetGUID();
     }
 
@@ -1254,6 +1259,9 @@ public:
 
                     if (pItem->GetTemplate()->HasSignature())
                     {
+                        if (sChallengeModes->selfCraftedAllowFromOthers && pItem->GetGuidValue(ITEM_FIELD_CREATOR).IsPlayer())
+                            continue;
+
                         if (pItem->GetGuidValue(ITEM_FIELD_CREATOR) == player->GetGUID())
                             continue;
                     }
