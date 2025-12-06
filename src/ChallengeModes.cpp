@@ -664,7 +664,7 @@ public:
                     continue;
 
                 if (sChallengeModes->semiHardcoreWeaponDropDisable)
-                    if (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD)
+                    if (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD || proto->InventoryType == INVTYPE_WEAPONOFFHAND || proto->InventoryType == INVTYPE_HOLDABLE)
                         continue;
 
                 std::string itemName = proto->Name1;
@@ -741,7 +741,7 @@ public:
                 return true;
             }
 
-            if (sChallengeModes->selfCraftedAllowWeapons && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD))
+            if (sChallengeModes->selfCraftedAllowWeapons && (proto->IsWeapon() || proto->InventoryType == INVTYPE_SHIELD || proto->InventoryType == INVTYPE_WEAPONOFFHAND || proto->InventoryType == INVTYPE_HOLDABLE))
             {
                 return true;
             }
